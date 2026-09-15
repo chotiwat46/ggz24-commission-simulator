@@ -45,14 +45,3 @@
 ```bash
 cd backend
 node server.js
-
-2. รันหน้าบ้าน (Frontend)
-cd frontend
-npm run dev
-
-⚠️ ข้อควรระวัง
-ห้ามใช้ข้อมูลจริง (ลูกค้า ยอดขายจริง ฯลฯ)
-
-ห้ามเชื่อมต่อ Marketplace จริง
-
-ใช้ข้อมูลตัวอย่างเท่านั้น
