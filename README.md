@@ -25,7 +25,7 @@
 ## 📂 โครงสร้างโปรเจกต์ (Project Structure)
 - `backend/` : Node.js + Express + MySQL
 - `frontend/` : React + Vite
-- `data/` : เก็บไฟล์ `sample_commission.csv` (ตัวอย่างข้อมูลจำลอง)
+- `data/` : เก็บไฟล์ `sample_commission.xlsx` (ตัวอย่างข้อมูลจำลอง)
 
 ---
 
