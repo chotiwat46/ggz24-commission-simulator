@@ -6,9 +6,15 @@
 - [x] **Export PDF** — ดาวน์โหลดใบสลิปค่าคอมมิชชันเป็นไฟล์ PDF
 
 ## ❌ ฟีเจอร์ที่ยังค้าง (Pending)
-- [ ] ระบบอัปโหลดไฟล์ Excel/CSV เพื่อคำนวณอัตโนมัติ
+- [ ] ระบบอัปโหลดไฟล์ Excel เพื่อคำนวณอัตโนมัติ
 - [ ] หน้าจัดการบัญชีผู้ใช้งาน (Manage Users)
 - [ ] ประวัติการจ่ายเงินย้อนหลัง (Payment History)
+
+## 📁 โครงสร้างโปรเจกต์ (Project Structure)
+- `backend/` : Node.js, Express + MySQL
+- `frontend/` : React + Vite
+- `data/` : เก็บไฟล์ `sample_commission.xlsx` (ตัวอย่างข้อมูลจำลอง)
+- `docs/` : เอกสารและภาพหน้าจอหลักฐานการคำนวณ
 
 ## 🛠️ เทคโนโลยีที่ใช้ (Tech Stack)
 
