@@ -1,6 +1,6 @@
 # ggz24-commission-simulator
 
-ระบบจำลองคำนวณค่าคอมมิชชันสตรีมเมอร์ (Automated Commission Simulator) พัฒนาเพื่อทดแทน Google Sheets ลดข้อผิดพลาด และปลอดภัยด้วย Role-Based Access
+ระบบจำลองคำนวณค่าคอมมิชชันทีมไลฟ์สด (Automated Commission Simulator) พัฒนาเพื่อทดแทน Google Sheets ลดข้อผิดพลาด และปลอดภัยด้วย Role-Based Access
 
 ## 📋 ภาพรวมโปรแกรม (Overview)
 
