@@ -25,7 +25,7 @@ db.connect((err) => {
 
 // API สำหรับดึงข้อมูลผู้ใช้งานทั้งหมด
 app.get('/api/users', (req, res) => {
-    const sql = 'SELECT id, username, display_name, role FROM users';
+    const sql = 'SELECT id, username, role FROM users';
     db.query(sql, (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Database query failed' });
@@ -38,7 +38,7 @@ app.get('/api/users', (req, res) => {
 app.get('/api/commissions', (req, res) => {
     // ใช้คำสั่ง JOIN เพื่อเชื่อมตาราง commissions เข้ากับตาราง users
     const sql = `
-        SELECT c.id, u.display_name, c.channel_name, c.gmv_amount, c.commission_rate, c.commission_amount, c.month_year 
+        SELECT c.id, u.username, c.channel_name, c.gmv_amount, c.commission_rate, c.commission_amount, c.month_year 
         FROM commissions c
         JOIN users u ON c.user_id = u.id
     `;
@@ -55,7 +55,7 @@ app.get('/api/commissions', (req, res) => {
 // API สำหรับเข้าสู่ระบบ (Login)
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
-    const sql = 'SELECT id, username, display_name, role FROM users WHERE username = ? AND password = ?';
+    const sql = 'SELECT id, username, role FROM users WHERE username = ? AND password = ?';
     
     db.query(sql, [username, password], (err, results) => {
         if (err) {

@@ -178,12 +178,12 @@ function App() {
     });
   };
 
-  const filteredCommissions = commissions.filter(item => {
-    const matchRole = user?.role === 'admin' || item.display_name === user?.display_name;
-    const matchSearch = item.display_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+const filteredCommissions = (commissions && Array.isArray(commissions)) ? commissions.filter(item => {
+    const matchRole = user?.role === 'admin' || item.username === user?.username;
+    const matchSearch = item.username.toLowerCase().includes(searchTerm.toLowerCase()) || 
                         item.channel_name.toLowerCase().includes(searchTerm.toLowerCase());
     return matchRole && matchSearch;
-  });
+}) : [];
 
   const totalGMV = filteredCommissions.reduce((sum, item) => sum + Number(item.gmv_amount), 0);
   const totalCommission = filteredCommissions.reduce((sum, item) => sum + Number(item.commission_amount), 0);
