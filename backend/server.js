@@ -73,7 +73,9 @@ const multer = require('multer');
 const xlsx = require('xlsx');
 const upload = multer({ dest: 'uploads/' }); // กำหนดโฟลเดอร์ชั่วคราวสำหรับเก็บไฟล์ที่อัปโหลด
 
-// API สำหรับอัปโหลดไฟล์ยอดขายและคำนวณอัตโนมัติ
+// ==========================================
+// ส่วนที่แก้ไข: API สำหรับอัปโหลดไฟล์ยอดขายและคำนวณอัตโนมัติ
+// ==========================================
 app.post('/api/upload-sales', upload.single('file'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'Please upload a file' });
@@ -85,14 +87,16 @@ app.post('/api/upload-sales', upload.single('file'), (req, res) => {
         const sheetName = workbook.SheetNames[0];
         const sheetData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
-        // โครงสร้างไฟล์ที่คาดหวังใน Excel: user_id, channel_name, gmv_amount, month_year
         let successCount = 0;
 
         sheetData.forEach((row) => {
             const userId = row.user_id;
             const channelName = row.channel_name;
             const gmv = parseFloat(row.gmv_amount) || 0;
-            const rate = 2.00; // เรตคอมมิชชันมาตรฐาน 2%
+            
+            // ปรับตรงนี้: ดึงค่า rate จาก Excel ถ้าไม่มีให้ใช้ค่ามาตรฐาน 2%
+            const rate = parseFloat(row.commission_rate) || 2.00; 
+            
             const commission = gmv * (rate / 100);
             const monthYear = row.month_year || '09/2026';
 
@@ -113,6 +117,7 @@ app.post('/api/upload-sales', upload.single('file'), (req, res) => {
         res.status(500).json({ error: 'Failed to process file' });
     }
 });
+// ==========================================
 
 // API ดึงรายชื่อผู้ใช้งานทั้งหมด
 app.get('/api/users', (req, res) => {
