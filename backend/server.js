@@ -80,19 +80,42 @@ app.post('/api/upload-sales', upload.single('file'), (req, res) => {
     }
 
     try {
-        // อ่านไฟล์ Excel หรือ CSV ที่อัปโหลดเข้ามา
         const workbook = xlsx.readFile(req.file.path);
         const sheetName = workbook.SheetNames[0];
         const sheetData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
-        // โครงสร้างไฟล์ที่คาดหวังใน Excel: user_id, channel_name, gmv_amount, month_year
         let successCount = 0;
 
         sheetData.forEach((row) => {
+            // 🛡️ 1. ดักจับข้อมูลแหว่ง (Missing required field)
+            if (!row.user_id || row.gmv_amount === undefined || row.gmv_amount === '') {
+                console.log(`⚠️ ข้ามแถวที่ข้อมูลไม่ครบ:`, row);
+                return; // ข้ามแถวนี้
+            }
+
+            let gmv = parseFloat(row.gmv_amount);
+
+            // 🛡️ 2. ดักจับยอดขายติดลบ (Negative GMV)
+            if (gmv < 0) {
+                console.log(`⚠️ ข้ามแถวที่ยอดขายติดลบ: user_id ${row.user_id}`);
+                return; // ข้ามแถวนี้
+            }
+
+            // 🛡️ 3. จัดการเรทค่าคอมมิชชัน (Valid, Missing, Invalid rate)
+            let rate = 2.00; // ค่า Default 2% สำหรับเคส Missing rate
+            if (row.commission_rate !== undefined && row.commission_rate !== '') {
+                let parsedRate = parseFloat(row.commission_rate);
+                
+                if (isNaN(parsedRate)) {
+                    console.log(`⚠️ ข้ามแถวที่เรทไม่ใช่ตัวเลข: user_id ${row.user_id}`);
+                    return; // ข้ามแถวนี้
+                }
+                rate = parsedRate; // ใช้เรทตามที่ระบุมา
+            }
+
+            // เตรียมข้อมูลสำหรับบันทึก
             const userId = row.user_id;
-            const channelName = row.channel_name;
-            const gmv = parseFloat(row.gmv_amount) || 0;
-            const rate = 2.00; // เรตคอมมิชชันมาตรฐาน 2%
+            const channelName = row.channel_name || '';
             const commission = gmv * (rate / 100);
             const monthYear = row.month_year || '09/2026';
 
